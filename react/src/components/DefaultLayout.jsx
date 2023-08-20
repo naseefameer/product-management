@@ -29,24 +29,28 @@ export default function DefaultLayout() {
 
   return (
     <div id="defaultLayout">
-      <aside>
-        <Link to="/">Dashboard</Link>
-      </aside>
+
 
       <div className="content">
         <header>
-          <div>Header</div>
+          <div>
+            <Link className="btn-logout font-weight" to="/">Dashboard</Link>
+            <Link className="btn-logout font-weight" to="/add-product">Import Product</Link>
+          </div>
 
           <div>
-            {user.name}
-            <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
+            <span className="header-username">
+              {user.name}
+            </span>
+            <a href="#" onClick={onLogout} className="btn-logout font-weight">Logout</a>
           </div>
         </header>
+
+        <main>
+          <Outlet />
+        </main>
       </div>
 
-      <main>
-        <Outlet />
-      </main>
     </div>
   );
 }
