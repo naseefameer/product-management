@@ -1,9 +1,27 @@
-import { useState } from 'react'
+import { useEffect, useState } from "react";
+import axiosClient from '../../axios-client'
 
 export default function Dashboard() {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getProducts();
+  }, [])
+
+  const getProducts = () => {
+    setLoading(true)
+    axiosClient.get('/products')
+      .then(({ data }) => {
+        console.log(data);
+        setLoading(false)
+        setProducts(data.data)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
+  }
 
   return (
     <div>
@@ -23,7 +41,7 @@ export default function Dashboard() {
           {loading &&
             <tbody>
               <tr>
-                <td colSpan="5" class="text-center">
+                <td colSpan="4" class="text-center">
                   Loading...
                 </td>
               </tr>

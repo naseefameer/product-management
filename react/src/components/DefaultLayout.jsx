@@ -35,7 +35,7 @@ export default function DefaultLayout() {
         <header>
           <div>
             <Link className="btn-logout font-weight" to="/">Dashboard</Link>
-            <Link className="btn-logout font-weight" to="/add-product">Import Product</Link>
+            <Link className="btn-logout font-weight" to="/add-product">Add Product</Link>
           </div>
 
           <div>

@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ProductResource;
 use App\Imports\ProductImport;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
     public function index()
     {
+        return ProductResource::collection(Product::query()->orderBy('id', 'desc')->paginate(10));
     }
 
     public function import(Request $request)
@@ -19,6 +21,7 @@ class ProductController extends Controller
         $errors = [];
         if ($request->hasFile('csv_file')) {
             $row_num = 0;
+            DB::beginTransaction();
             $productImport = new ProductImport();
             $productImport->import($request->file('csv_file'));
             foreach ($productImport->failures() as $failure) {
@@ -29,8 +32,10 @@ class ProductController extends Controller
             }
 
             if(empty($errors)) {
+                DB::commit();
                 return response(['message' => 'CSV imported successfully']);
             } else {
+                DB::rollBack();
                 return response(['message' => 'Error importing CSV', 'errors' => $errors], 500);
             }
         }

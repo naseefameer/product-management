@@ -22,11 +22,10 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/products', [ProductController::class, 'index']);
+    Route::post('/import-products', [ProductController::class, 'import']);
+    Route::get('/products', [ProductController::class, 'index']);
 
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/import-products', [ProductController::class, 'import']);

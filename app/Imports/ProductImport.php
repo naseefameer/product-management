@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ProductImport implements WithValidation, SkipsOnFailure, ToCollection, SkipsEmptyRows, WithHeadingRow, WithChunkReading
+class ProductImport implements ToCollection, SkipsEmptyRows, WithHeadingRow, WithValidation, SkipsOnFailure, WithChunkReading
 
 {
     use Importable, SkipsFailures;
@@ -27,8 +27,6 @@ class ProductImport implements WithValidation, SkipsOnFailure, ToCollection, Ski
     {
         $rows = $rows->toArray();
 
-
-        DB::beginTransaction();
         // iterating each row and validating it:
         foreach ($rows as $key => $row) {
             $validator = Validator::make($row, $this->rules(), $this->validationMessages());
