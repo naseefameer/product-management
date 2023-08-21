@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return ProductResource::collection(Product::query()->orderBy('id', 'desc')->paginate(10));
+        return ProductResource::collection(Product::query()->paginate(20));
     }
 
     public function import(Request $request)

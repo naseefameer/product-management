@@ -1,28 +1,38 @@
 import { useEffect, useState } from "react";
 import axiosClient from '../../axios-client'
+import ReactPaginate from 'react-paginate';
 
 export default function Dashboard() {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+
+  const [pageCount, setPageCount] = useState(1);
+  const [currentPage, setcurrentPage] = useState(1);
 
   useEffect(() => {
-    getProducts();
-  }, [])
+    getProducts(currentPage);
+  }, [currentPage])
 
   const getProducts = () => {
+    console.log('current :', currentPage);
     setLoading(true)
-    axiosClient.get(`/products?page=${page}`)
+    axiosClient.get(`/products?page=${currentPage}`)
       .then(({ data }) => {
-        console.log(data);
         setLoading(false)
         setProducts(data.data)
+        // console.log(data);
+        setPageCount(data.meta.last_page)
       })
       .catch(() => {
         setLoading(false)
       })
   }
+
+  const handlePageChange = ({ selected }) => {
+    // console.log(selected + 1);
+    setcurrentPage(selected + 1);
+  };
 
   return (
     <div>
@@ -42,7 +52,7 @@ export default function Dashboard() {
           {loading &&
             <tbody>
               <tr>
-                <td colSpan="4" class="text-center">
+                <td colSpan="4" className="text-center">
                   Loading...
                 </td>
               </tr>
@@ -62,24 +72,22 @@ export default function Dashboard() {
           }
         </table>
 
-        <div className="pagination">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <>
-              <button
-                disabled={page === 1}
-                onClick={() => setPage((prevState) => prevState - 1)}
-              >
-                Prev
-              </button>
-              <p>{page}</p>
-              <button onClick={() => setPage((prevState) => prevState + 1)}>
-                Next
-              </button>
-            </>
-          )}
-        </div>
+        {!loading && products.length != 0 &&
+          <ReactPaginate
+
+            pageCount={pageCount}
+            onPageChange={handlePageChange}
+            // forcePage={currentPage}
+            containerClassName={'pagination'}
+            // previousLinkClassName={'page'}
+            // breakClassName={'page'}
+            // nextLinkClassName={'page'}
+            // pageClassName={'page'}
+            // disabledClassNae={'disabled'}
+            activeClassName={'active'}
+          />
+        }
+
       </div>
     </div>
   )
