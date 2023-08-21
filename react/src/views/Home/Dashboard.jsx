@@ -5,6 +5,7 @@ export default function Dashboard() {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     getProducts();
@@ -12,7 +13,7 @@ export default function Dashboard() {
 
   const getProducts = () => {
     setLoading(true)
-    axiosClient.get('/products')
+    axiosClient.get(`/products?page=${page}`)
       .then(({ data }) => {
         console.log(data);
         setLoading(false)
@@ -60,6 +61,25 @@ export default function Dashboard() {
             </tbody>
           }
         </table>
+
+        <div className="pagination">
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <>
+              <button
+                disabled={page === 1}
+                onClick={() => setPage((prevState) => prevState - 1)}
+              >
+                Prev
+              </button>
+              <p>{page}</p>
+              <button onClick={() => setPage((prevState) => prevState + 1)}>
+                Next
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

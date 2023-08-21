@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axiosClient from '../../axios-client'
 
 const CsvUpload = () => {
+    const fileRef = React.useRef();
     const [file, setFile] = useState(null);
-    const [success, setSuccess] = useState(null)
-    const [errors, setErrors] = useState(null)
+    const [status, setStatus] = useState(null);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -20,11 +20,12 @@ const CsvUpload = () => {
             },
         })
             .then((result) => {
-                setSuccess({ "status": 200 })
+                fileRef.current.value = ""
+                setStatus({ type: 'success' });
             }).catch((err) => {
                 const response = err.response;
                 if (response) {
-                    setErrors(response.data.errors);
+                    setStatus({ type: 'error', errors: response.data.errors });
                 }
             });
     };
@@ -32,21 +33,19 @@ const CsvUpload = () => {
     return (
         <div>
 
-            {success &&
-                <div className="success">
-                    <p>CSV uploaded successfully</p>
-                </div>
+            {status?.type === 'success' && <div className="success">
+                <p>CSV uploaded successfully</p>
+            </div>
             }
 
-            {errors &&
-                <div className="alert">
-                    {Object.keys(errors).map(key => (
-                        <p key={key}>{errors[key]}</p>
-                    ))}
-                </div>
+            {status?.type === 'error' && <div className="alert">
+                {Object.keys(status.errors).map(key => (
+                    <p key={key}>{status.errors[key]}</p>
+                ))}
+            </div>
             }
 
-            <input type="file" onChange={handleFileChange} />
+            <input type="file" onChange={handleFileChange} ref={fileRef} />
             <button className='btn-add' onClick={handleUpload}>Upload</button>
         </div>
     );
