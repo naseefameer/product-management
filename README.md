@@ -26,8 +26,7 @@ Run:
 
 Install NPM dependencies:
 
-- cd react
-- npm install
+- cd react && npm install
 
 ### Usage
 
