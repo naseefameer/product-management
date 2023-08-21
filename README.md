@@ -21,17 +21,17 @@ Install composer dependencies using: composer install
 
 Run: 
 
-php artisan key:generate
-php artisan migrate
+- php artisan key:generate
+- php artisan migrate
 
 Install NPM dependencies:
 
-cd react
-npm install
+- cd react
+- npm install
 
 ### Usage
 
 Start the development server:
 
-php artisan serve
-cd react && npm run dev
+- php artisan serve
+- cd react && npm run dev
