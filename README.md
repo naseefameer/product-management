@@ -13,7 +13,7 @@ Basic authentication and registration are included, along with the ability to in
 
 ### Installation
 
-Clone the repository: git clone https://github.com/your-username/project-name.git
+Clone the repository: git clone https://github.com/naseefameer/product-management.git
 
 Create .env file and fill out in the project root using the .env.example file as a template (both backend and frontend)
 
