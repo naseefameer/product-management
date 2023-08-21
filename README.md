@@ -15,14 +15,19 @@ Basic authentication and registration are included, along with the ability to in
 
 Clone the repository: git clone https://github.com/naseefameer/product-management.git
 
-Create .env file and fill out in the project root using the .env.example file as a template (both backend and frontend)
+Create .env file and fill out using the .env.example file as a template (both backend and frontend)
 
-Install composer dependencies using - composer install
+Install composer dependencies using: composer install
 
-Run - php artisan key:generate , php artisan migrate
+Run: 
 
-Install NPM dependencies - cd react and npm install
+php artisan key:generate
+php artisan migrate
 
+Install NPM dependencies:
+
+cd react
+npm install
 
 ### Usage
 
